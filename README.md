@@ -1,2 +1,3 @@
 # RecommendationSystems
-code snippets while learning to build Rec sys'
+
+Implementation of algos and mini projects in the path of learning Recommendation Systems
