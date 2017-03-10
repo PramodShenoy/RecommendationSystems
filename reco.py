@@ -21,7 +21,6 @@ critics={'Lisa Rose': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.5,
 
 def euclidean_dist(p1,p2):
 	si={}
-	print 'sdfsdf'
 	#finding common ratings
 	for item in critics[p1]:
 		if item in critics[p2]:
@@ -34,5 +33,39 @@ def euclidean_dist(p1,p2):
 	func=sum([pow(critics[p1][item]-critics[p2][item],2) for item in critics[p1] if item in critics[p2]])
 	return 1/(1+func)
 	
+#print euclidean_dist('Lisa Rose','Jack Matthews')
 
-print euclidean_dist('Lisa Rose','Jack Matthews')
+def pearson_score(p1,p2):
+	si={}
+	#list of mutually rated items
+	for item in critics[p1]:
+		if item in critics[p2]:
+			si[item]=1
+	n=len(si)
+
+	if n==0:
+		return 0
+
+	sum1=sum([critics[p1][it] for it in si])
+	sum2=sum([critics[p2][it] for it in si])
+
+	#finding sum of squares
+	sum1sq=sum([pow(critics[p1][it],2) for it in si])		
+	sum2sq=sum([pow(critics[p2][it],2) for it in si])
+
+	#sum of products
+	prod_sum=sum([critics[p1][it]*critics[p2][it] for it in si])
+
+	#Pearson score
+	num=prod_sum-((sum1*sum2)/n)
+	den=sqrt((sum1sq-pow(sum1,2)/n)*(sum2sq-pow(sum2,2)/n))
+	if den != 0:
+		r=num/den
+		return r
+	else:
+		return 0
+print pearson_score('Lisa Rose','Gene Seymour')
+
+
+
+
