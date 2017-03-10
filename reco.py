@@ -17,7 +17,7 @@ critics={'Lisa Rose': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.5,
 'You, Me and Dupree': 2.0},
 'Jack Matthews': {'Lady in the Water': 3.0, 'Snakes on a Plane': 4.0,
 'The Night Listener': 3.0, 'Superman Returns': 5.0, 'You, Me and Dupree': 3.5},
-'Toby': {'Snakes on a Plane':4.5,'You, Me and Dupree':1.0,'Superman Returns':4.0}}
+'Pramod':{'Snakes on a Plane':2.5,'You, Me and Dupree':2.0,'Superman Return':4.5,'The Night Listener':3.0}}
 
 def euclidean_dist(p1,p2):
 	si={}
@@ -66,6 +66,11 @@ def pearson_score(p1,p2):
 		return 0
 print pearson_score('Lisa Rose','Gene Seymour')
 
+def matches(p,n=3,similarity=pearson_score):
+	scores=[(similarity(p,other),other) for other in critics if other!=p]
 
+	scores.sort()
+	scores.reverse()
+	return scores[0:n]
 
-
+print matches('Pramod')
