@@ -17,7 +17,8 @@ critics={'Lisa Rose': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.5,
 'You, Me and Dupree': 2.0},
 'Jack Matthews': {'Lady in the Water': 3.0, 'Snakes on a Plane': 4.0,
 'The Night Listener': 3.0, 'Superman Returns': 5.0, 'You, Me and Dupree': 3.5},
-'Pramod':{'Snakes on a Plane':2.5,'You, Me and Dupree':2.0,'Superman Return':4.5,'The Night Listener':3.0}}
+'Toby': {'Snakes on a Plane':4.5,'You, Me and Dupree':1.0,'Superman Returns':4.0},
+'Pramod':{'Snakes on a Plane':2.5,'You, Me and Dupree':2.0,'Superman Returns':4.5,'The Night Listener':3.0}}
 
 def euclidean_dist(p1,p2):
 	si={}
@@ -71,6 +72,35 @@ def matches(p,n=3,similarity=pearson_score):
 
 	scores.sort()
 	scores.reverse()
-	return scores[0:n]
+	return scores[0:]
 
-print matches('Pramod')
+#print matches('Pramod')
+
+def getreco(p,similarity=pearson_score):
+	totals={}
+	simsum={}
+	for other in critics:
+		if other==p:
+			continue
+		sim=similarity(p,other)
+		if sim<=0:
+			continue
+		# show me movies i haven't watched yet
+		for item in critics[other]:
+
+			if item not in critics[p] or critics[p][item]==0:
+				#Similarity * score
+				totals.setdefault(item,0)
+				totals[item]+=critics[other][item]*sim
+				#find sum of similarities
+				simsum.setdefault(item,0)
+				simsum[item]+=sim
+
+	#getting normalized list
+	rankings=[(total/simsum[item],item) for item,total in totals.items()]
+
+	rankings.sort()
+	rankings.reverse()
+	return rankings
+
+print getreco('Pramod')
